@@ -25,7 +25,7 @@ Each world has its own palette, moving hazards, drone skin, cargo, structure, am
 
 - **WASD** / **arrows** — thrust and steering
 - **SPACE** — hook cargo / drop it gently on the build site
-- **P** — pause, **M** — mute, **ESC** — back to menu
+- **P** — pause, **M** — mute, **F** — fullscreen, **ESC** — back to menu
 - Touch devices get an on-screen D-pad and action button
 
 Hook the block on the left, fly to the structure on the right and release. A soft drop scores **PERFECT +50**; a hard drop shatters the cargo. Each world gives three lives — crashes, hazards and broken cargo cost one. Deliver six blocks to complete the structure, then watch the ending cinematic. Best score is saved per world in `localStorage`.

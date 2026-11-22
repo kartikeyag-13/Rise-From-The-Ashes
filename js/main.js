@@ -139,6 +139,20 @@
   $('chooseBtn').addEventListener('click', () => game.toSelect());
   $('selectBackBtn').addEventListener('click', () => game.toTitle());
   $('pauseBtn').addEventListener('click', () => game.togglePause());
+  const fullscreenBtn = $('fullscreenBtn');
+  function toggleFullscreen() {
+    const root = document.documentElement;
+    if (document.fullscreenElement) {
+      if (document.exitFullscreen) document.exitFullscreen();
+    } else if (root.requestFullscreen) {
+      const result = root.requestFullscreen();
+      if (result && result.catch) result.catch(() => {});
+    }
+  }
+  fullscreenBtn.addEventListener('click', toggleFullscreen);
+  window.addEventListener('keydown', (e) => {
+    if ((e.code || e.key) === 'KeyF' && !e.repeat) toggleFullscreen();
+  });
   $('resumeBtn').addEventListener('click', () => game.togglePause());
   $('pauseRetryBtn').addEventListener('click', () => game.startWorld(game.worldId));
   $('pauseMenuBtn').addEventListener('click', () => game.toSelect());
