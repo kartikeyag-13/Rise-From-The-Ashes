@@ -41,6 +41,10 @@ Hook the block on the left, fly to the structure on the right and release. A sof
 - `js/main.js` — UI wiring and world previews
 - `assets/themes/<world>/` — background photos; `assets/manifest.json` selects them (see `assets/README.md`)
 
+## Intro video
+
+`assets/gemini_generated_video_436c63eb.mp4` plays automatically (muted) on load, fades out at the end and reveals the title screen. Use the **SKIP INTRO** button to jump straight to the game. Replace the file or change the `src` in `index.html` to use your own intro.
+
 ## Background images
 
 Drop a photo into a world folder and set its filename in `assets/manifest.json`. The image is drawn as a cover-fit backdrop; all gameplay art is still drawn procedurally on top.

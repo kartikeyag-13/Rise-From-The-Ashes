@@ -111,6 +111,31 @@
   });
   setHeroWorld('greece');
 
+  const intro = $('intro');
+  const introVideo = $('introVideo');
+  let introDone = false;
+  let failsafeId = null;
+  function endIntro() {
+    if (introDone) return;
+    introDone = true;
+    if (failsafeId) clearTimeout(failsafeId);
+    intro.classList.add('hidden');
+    if (typeof introVideo.pause === 'function') introVideo.pause();
+  }
+  introVideo.addEventListener('ended', endIntro);
+  introVideo.addEventListener('error', endIntro);
+  introVideo.addEventListener('timeupdate', function () {
+    if (introVideo.duration && introVideo.duration - introVideo.currentTime < 1.2) intro.classList.add('fading');
+  });
+  if (typeof introVideo.play === 'function') {
+    introVideo.addEventListener('canplay', function () {
+      const result = introVideo.play();
+      if (result && result.catch) result.catch(endIntro);
+    });
+    failsafeId = setTimeout(endIntro, 14000);
+  }
+  $('skipIntro').addEventListener('click', endIntro);
+
   $('chooseBtn').addEventListener('click', () => game.toSelect());
   $('selectBackBtn').addEventListener('click', () => game.toTitle());
   $('pauseBtn').addEventListener('click', () => game.togglePause());

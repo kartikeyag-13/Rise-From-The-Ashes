@@ -1,5 +1,9 @@
 # Theme assets
 
+The intro video lives at `assets/gemini_generated_video_436c63eb.mp4` and is referenced directly from `index.html`.
+
+
+
 The four worlds use their background photo as a cover-fit backdrop behind procedural art. Images are loaded from `assets/manifest.json` on startup.
 
 ```
