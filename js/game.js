@@ -193,10 +193,16 @@
       requestAnimationFrame(this._loop);
     }
 
+    decayShake(dt) {
+      if (this.shake <= 0) return;
+      this.shake *= Math.pow(0.015, dt);
+      if (this.shake < 0.2) this.shake = 0;
+    }
+
     updateIdle(dt) {
       for (const p of this.particles) { p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; }
       this.particles = this.particles.filter((p) => p.life > 0);
-      if (this.shake > 0) this.shake -= dt;
+      this.decayShake(dt);
       if (this.flash > 0) this.flash -= dt;
     }
 
@@ -285,7 +291,7 @@
         this.toast.life -= dt;
         if (this.toast.life <= 0) this.toast = null;
       }
-      if (this.shake > 0) this.shake -= dt;
+      this.decayShake(dt);
       if (this.flash > 0) this.flash -= dt;
 
       for (const p of this.particles) {
@@ -361,7 +367,7 @@
       this.lives--;
       this.invuln = 1.5;
       this.respawn = 0.6;
-      this.shake = 16;
+      this.shake = 10;
       this.flash = 0.4;
       this.carrying = false;
       this.ropeAngle = 0;
@@ -398,6 +404,7 @@
 
     updateCinematic(dt) {
       this.cinematicTime += dt;
+      this.decayShake(dt);
       for (const p of this.particles) { p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; }
       this.particles = this.particles.filter((p) => p.life > 0);
       if (this.cinematicTime >= 5.2) {
