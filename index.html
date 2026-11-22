@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0c111b">
+  <title>SkyHaul — Four Worlds</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">◆</div>
+        <div>
+          <h1>SKYHAUL</h1>
+          <p>DRONE DELIVERY ARCADE</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span class="pill" id="worldBadge">GREEK MYTHOLOGY</span>
+        <button class="icon-btn" id="muteBtn" type="button" title="Mute (M)" aria-label="Toggle sound">♪</button>
+        <button class="icon-btn" id="pauseBtn" type="button" title="Pause (P)" aria-label="Pause game">❚❚</button>
+      </div>
+    </header>
+
+    <main class="stage">
+      <div class="canvas-frame">
+        <canvas id="game" width="960" height="600" aria-label="Drone game playing area"></canvas>
+
+        <section class="hud" id="hud" aria-hidden="true">
+          <div class="hud-row">
+            <div class="stat"><span class="stat-label">SCORE</span><strong id="statScore">0</strong></div>
+            <div class="stat"><span class="stat-label">TIME</span><strong id="statTime">0:00</strong></div>
+            <div class="stat wide"><span class="stat-label">STRUCTURE</span><strong id="statProgress">0 / 6</strong></div>
+            <div class="stat"><span class="stat-label">LIVES</span><strong class="lives" id="statLives">♥♥♥</strong></div>
+            <div class="stat"><span class="stat-label">WIND</span><strong id="statWind">→ 0</strong></div>
+          </div>
+          <div class="hud-row hud-row-bottom">
+            <div class="progress-wrap">
+              <span class="stat-label">BUILD PROGRESS <b id="progressText">0%</b></span>
+              <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
+            <div class="cargo-status" id="cargoStatus">HOOK THE CARGO</div>
+          </div>
+        </section>
+
+        <div class="touch-controls" id="touchControls" aria-hidden="true">
+          <div class="dpad">
+            <button type="button" data-dir="up" aria-label="Up">▲</button>
+            <button type="button" data-dir="left" aria-label="Left">◀</button>
+            <button type="button" data-dir="down" aria-label="Down">▼</button>
+            <button type="button" data-dir="right" aria-label="Right">▶</button>
+          </div>
+          <button type="button" class="action-btn" id="touchAction">HOOK / DROP</button>
+        </div>
+
+        <div class="overlay active" id="overlay">
+          <section class="screen" id="screenTITLE" data-screen="TITLE">
+            <div class="title-hero">
+              <canvas id="heroCanvas" width="960" height="600" aria-hidden="true"></canvas>
+              <div class="hero-shade" aria-hidden="true"></div>
+              <div class="hero-content">
+                <span class="hero-kicker" id="heroKicker">GREEK MYTHOLOGY</span>
+                <h2 class="hero-title"><span>Sky</span><span>Haul</span></h2>
+                <p class="hero-tagline" id="heroTagline">Fly with Icarus. Build the tower. Beware the sun.</p>
+                <button class="hero-btn" id="chooseBtn" type="button">CHOOSE YOUR WORLD <span>→</span></button>
+                <div class="world-tabs" id="worldTabs"></div>
+                <div class="hero-controls">
+                  <span><kbd>WASD</kbd> fly</span>
+                  <span><kbd>SPACE</kbd> hook / drop</span>
+                  <span><kbd>P</kbd> pause</span>
+                  <span><kbd>M</kbd> mute</span>
+                  <span><kbd>ESC</kbd> menu</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="screen hidden" id="screenSELECT" data-screen="SELECT">
+            <div class="select-wrap">
+              <div class="select-head">
+                <div>
+                  <span class="eyebrow">SELECT A WORLD</span>
+                  <h2>Four legends, four skies</h2>
+                </div>
+                <button class="text-btn" id="selectBackBtn" type="button">← Back</button>
+              </div>
+              <div class="world-grid" id="worldGrid"></div>
+            </div>
+          </section>
+
+          <section class="screen hidden" id="screenPAUSED" data-screen="PAUSED">
+            <div class="screen-card">
+              <span class="eyebrow">PAUSED</span>
+              <h2>Take a breath</h2>
+              <p class="lead">The clock is stopped and the wind is waiting.</p>
+              <button class="primary-btn" id="resumeBtn" type="button">RESUME</button>
+              <button class="secondary-btn" id="pauseRetryBtn" type="button">RETRY WORLD</button>
+              <button class="text-btn" id="pauseMenuBtn" type="button">World select</button>
+            </div>
+          </section>
+
+          <section class="screen hidden" id="screenRESULTS" data-screen="RESULTS">
+            <div class="screen-card">
+              <span class="eyebrow" id="resultEyebrow">COMPLETE</span>
+              <h2 id="resultTitle">Mission Complete</h2>
+              <p class="lead" id="resultMessage">The structure stands tall.</p>
+              <div class="result-grid">
+                <div><span>SCORE</span><strong id="resultScore">0</strong></div>
+                <div><span>BEST</span><strong id="resultBest">0</strong></div>
+                <div><span>DELIVERED</span><strong id="resultDelivered">0 / 6</strong></div>
+                <div><span>TIME + BONUS</span><strong id="resultTime">0:00</strong></div>
+              </div>
+              <button class="primary-btn" id="retryBtn" type="button">RETRY</button>
+              <button class="secondary-btn" id="resultsMenuBtn" type="button">WORLD SELECT</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span><kbd>WASD</kbd> / <kbd>↑←↓→</kbd> fly</span>
+      <span><kbd>SPACE</kbd> hook &amp; gentle drop</span>
+      <span><kbd>P</kbd> pause</span>
+      <span><kbd>M</kbd> mute</span>
+      <span class="footer-tip">Soft landings score more. Hard drops and crashes cost a life.</span>
+    </footer>
+  </div>
+
+  <script src="js/worlds.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
